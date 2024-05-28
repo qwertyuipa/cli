@@ -1,0 +1,24 @@
+import requests
+
+API_KEY = 'aSfCHpY92K7KXyuyLW2BjmMbDuiKYc39bo2hqmPfdGDy1mkKkRbw9GququxXTDn9'
+API_SECRET = 'H020e2t6TfFFK9pLdsNNoK1ZiY8s1amO4PThwXkEQ8OHfRX0PbY6dm5M7kR1gtV6'
+NEWS_API_URL = 'https://api.binance.com/api/v1/news'
+POST_API_URL = 'https://api.binance.com/api/v1/square/post'
+
+# Fetch Binance News
+headers = {'X-MBX-APIKEY': API_KEY}
+response = requests.get(NEWS_API_URL, headers=headers)
+news_data = response.json()
+
+# Extract news content
+latest_news = news_data['latest']
+news_content = latest_news['content']
+
+# Create a post on Binance Square
+post_data = {'content': news_content}
+response = requests.post(POST_API_URL, headers=headers, data=post_data)
+
+if response.status_code == 200:
+    print("News posted successfully on Binance Square!")
+else:
+    print("Failed to post news on Binance Square.")
